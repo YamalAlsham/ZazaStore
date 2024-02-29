@@ -38,6 +38,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { PaginationWithLanguage } from 'src/core/query/pagination-with-language.query';
 import { Request } from 'express';
 import { UploadService } from '../upload/upload.service';
+import { Throttle } from '@nestjs/throttler';
 @ApiTags('category')
 @Controller('category')
 export class CategoryController {
@@ -134,6 +135,7 @@ export class CategoryController {
     return this.categoryService.remove(+id);
   }
 
+  @Throttle({ default: { limit: 4, ttl: 10000 } })
   @UseGuards(AccessTokenGuard, IsAdminGuard)
   @Post('image')
   @UseInterceptors(FileInterceptor('image'))

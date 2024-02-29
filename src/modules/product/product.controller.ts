@@ -51,6 +51,7 @@ import { TaxIdDto } from './dto/taxId-dto';
 import { ProductUnitIds } from './dto/product-unit-ids.dto';
 import { PaginationWithLanguage } from 'src/core/query/pagination-with-language.query';
 import { UploadService } from '../upload/upload.service';
+import { Throttle } from '@nestjs/throttler';
 
 @ApiTags('product')
 @Controller('product')
@@ -228,6 +229,7 @@ export class ProductController {
     return this.productService.remove(+id);
   }
 
+  @Throttle({ default: { limit: 4, ttl: 10000 } })
   @UseGuards(AccessTokenGuard, IsAdminGuard)
   @Post('image')
   @UseInterceptors(FileInterceptor('image'))

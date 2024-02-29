@@ -22,6 +22,7 @@ import { ResetPasswordDto } from 'src/email/dto/reset-password.dto';
 import { UserResetPassword } from './entities/user-reset-password.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Throttle } from '@nestjs/throttler';
 
 @ApiTags('user')
 @Controller('user')
@@ -58,6 +59,7 @@ export class UserController {
 
   // check if user exists
   // delete user reset token if exists
+  @Throttle({ default: { limit: 3, ttl: 3600000 } })
   @UseGuards(DoesUserResetTokenExistGuard)
   @Post('forgot-password')
   async forgotPassword(@Body('email') email: string) {

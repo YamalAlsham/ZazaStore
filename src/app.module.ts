@@ -26,6 +26,8 @@ import { AppService } from './app.service';
 import { ProductUnitModule } from './modules/product-unit/product-unit.module';
 import { CategoryType } from './modules/category/entities/category-type.entity';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -41,6 +43,12 @@ import { MailerModule } from '@nestjs-modules/mailer';
         },
       },
     }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 10000,
+        limit: 8,
+      },
+    ]),
     UserModule,
     LanguageModule,
     TextContentModule,
@@ -59,6 +67,15 @@ import { MailerModule } from '@nestjs-modules/mailer';
     UnitModule,
   ],
   controllers: [],
-  providers: [AuthService, JwtService, LanguageService, AppService],
+  providers: [
+    AuthService,
+    JwtService,
+    LanguageService,
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
