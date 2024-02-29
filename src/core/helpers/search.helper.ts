@@ -1,4 +1,4 @@
-export function getWhereByCondition(search: string, parentCategoryId: number) {
+export function getWhereByCondition(parentCategoryId: number) {
   if (parentCategoryId === -1) {
     return {};
   } else {

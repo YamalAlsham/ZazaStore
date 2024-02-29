@@ -6,10 +6,7 @@ import { Discount } from './entities/discount.entity';
 import { In, Repository } from 'typeorm';
 import { QueryFilter } from 'src/core/query/query-filter.query';
 import { Product } from '../product/entities/product.entity';
-import {
-  getOrderByCondition,
-  getOrderProductByCondition,
-} from 'src/core/helpers/sort.helper';
+import { getOrderProductByCondition } from 'src/core/helpers/sort.helper';
 import { FavoriteProductService } from '../favorite-product/favorite-product.service';
 import { Request } from 'express';
 import { getUserId } from '../user/helper/get-user-id.helper';

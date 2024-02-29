@@ -5,7 +5,6 @@ import { Brackets, Repository } from 'typeorm';
 import { QueryFilter } from 'src/core/query/query-filter.query';
 import { Request } from 'express';
 import { Product } from '../product/entities/product.entity';
-import { getWhereByCondition } from 'src/core/helpers/search.helper';
 import { getOrderProductByCondition } from 'src/core/helpers/sort.helper';
 
 @Injectable()
@@ -31,7 +30,7 @@ export class FavoriteProductService {
     }
   }
 
-  async findAllByUserId(userId: number, query: QueryFilter, req: Request) {
+  async findAllByUserId(userId: number, query: QueryFilter) {
     const productIds = await this.favoriteProductRepository.find({
       where: { userId },
       select: {
@@ -68,7 +67,6 @@ export class FavoriteProductService {
       .leftJoinAndSelect('product.discounts', 'discounts')
       .where([
         {
-          ...getWhereByCondition(query.search, -1),
           isDeleted: 0,
         },
       ])
@@ -168,7 +166,9 @@ export class FavoriteProductService {
 
         return {
           id: product.id,
-          image: product.image,
+          image: product.image
+            ? process.env.IMAGES_PREFIX_URL + product.image
+            : null,
           barCode: product.barCode,
           parentCategoryId: product.parentCategoryId,
           isFavorite: favoriteProduct ? true : false,

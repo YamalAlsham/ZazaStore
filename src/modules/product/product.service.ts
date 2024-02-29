@@ -81,7 +81,7 @@ export class ProductService {
       .leftJoinAndSelect('product.discounts', 'discounts')
       .where([
         {
-          ...getWhereByCondition(query.search, parentCategoryId),
+          ...getWhereByCondition(parentCategoryId),
           isDeleted: 0,
         },
       ])

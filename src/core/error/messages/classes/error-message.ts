@@ -1,12 +1,16 @@
-export class ErrorMessage {
-  private translations: Record<string, string>;
+import {
+  LanguageCodeEnum,
+  defaultLanguage,
+} from 'src/modules/language/helper/language-enum';
 
-  constructor(translations: Record<string, string>) {
+export class ErrorMessage {
+  private translations: Record<LanguageCodeEnum, string>;
+
+  constructor(translations: Record<LanguageCodeEnum, string>) {
     this.translations = translations;
   }
 
-  getMessage(language: string): string {
-    const translation = this.translations[language];
-    return translation || this.translations['en'];
+  getMessage(language: LanguageCodeEnum): string {
+    return this.translations[language] || this.translations[defaultLanguage];
   }
 }

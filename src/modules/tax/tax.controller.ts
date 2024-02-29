@@ -13,7 +13,6 @@ import {
 import { TaxService } from './tax.service';
 import { CreateTaxDto } from './dto/create-tax.dto';
 import { UpdateTaxDto } from './dto/update-tax.dto';
-import { catchingError } from 'src/core/error/helper/catching-error';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { TextContentService } from '../text-content/text-content.service';
@@ -52,19 +51,15 @@ export class TaxController {
     @Body('textContent') createTextContentDto: CreateTextContentDto,
     @Body('translation') createTranslationDtoList: SecondCreateTranslationDto[],
   ) {
-    try {
-      const createdTextContent = await this.textContentService.create(
-        createTextContentDto,
-      );
+    const createdTextContent = await this.textContentService.create(
+      createTextContentDto,
+    );
 
-      await this.translationService.createMany(
-        createTranslationDtoList,
-        createdTextContent.id,
-      );
-      return this.taxService.create(createTaxDto, createdTextContent);
-    } catch (error) {
-      catchingError(error, this.request);
-    }
+    await this.translationService.createMany(
+      createTranslationDtoList,
+      createdTextContent.id,
+    );
+    return this.taxService.create(createTaxDto, createdTextContent);
   }
 
   @UseGuards(AccessTokenGuard, IsAdminGuard)

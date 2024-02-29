@@ -63,7 +63,15 @@ export class UserController {
   async forgotPassword(@Body('email') email: string) {
     const token = await this.userService.generateResetToken(email);
 
-    await this.emailService.sendResetPasswordEmail(email, token);
+    try {
+      await this.emailService.sendResetPasswordEmail(email, token);
+    } catch (err) {
+      throw new Error(err);
+    }
+    return {
+      message: 'Email reset code sent successfully',
+      statusCode: 201,
+    };
   }
 
   @UseGuards(ValidateResetTokenGuard)

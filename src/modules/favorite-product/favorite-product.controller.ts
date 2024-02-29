@@ -34,6 +34,6 @@ export class FavoriteProductController {
     const favorite = await this.favoriteProductService.findOneByUser(userId);
     if (!favorite) return { translatedProducts: [], count: 0 };
 
-    return this.favoriteProductService.findAllByUserId(userId, query, req);
+    return this.favoriteProductService.findAllByUserId(userId, query);
   }
 }
