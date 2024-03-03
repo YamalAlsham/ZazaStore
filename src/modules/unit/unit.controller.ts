@@ -7,14 +7,11 @@ import {
   Param,
   Delete,
   UseGuards,
-  Inject,
   Query,
 } from '@nestjs/common';
 import { UnitService } from './unit.service';
 import { AccessTokenGuard } from '../auth/guards/accessToken.guard';
 import { IsAdminGuard } from '../auth/guards/is-admin.guard';
-import { REQUEST } from '@nestjs/core';
-import { Request } from 'express';
 import { CreateTextContentDto } from '../text-content/dto/create-text-content.dto';
 import { SecondCreateTranslationDto } from '../translation/dto/create-translation.dto';
 import { TextContentService } from '../text-content/text-content.service';
@@ -24,10 +21,8 @@ import { DoesLanguageCodeForTextContentExistGuard } from '../language/guards/doe
 import { UpdateTextContentDto } from '../text-content/dto/update-text-content.dto';
 import { UpdateSecondTranslationDtoList } from '../translation/dto/update-translation.dto';
 import { DoesUnitExistGuard } from './guards/does-unit-exist.guard';
-import { ApiTags } from '@nestjs/swagger';
 import { LanguageQuery } from 'src/core/query/language.query';
 
-@ApiTags('unit')
 @Controller('unit')
 export class UnitController {
   constructor(

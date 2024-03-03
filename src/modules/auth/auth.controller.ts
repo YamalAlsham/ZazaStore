@@ -19,10 +19,8 @@ import { getUserId } from '../user/helper/get-user-id.helper';
 import { DoesUserExistGuard } from '../user/guards/does-user-exist.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { IsAdminGuard } from './guards/is-admin.guard';
-import { ApiTags } from '@nestjs/swagger';
 import { RefreshTokenGuard } from './guards/refreshToken.guard';
 
-@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(

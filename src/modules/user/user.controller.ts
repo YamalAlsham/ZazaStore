@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from '../auth/guards/accessToken.guard';
 import { IsAdminGuard } from '../auth/guards/is-admin.guard';
 import { PaginationWithSearch } from 'src/core/query/pagination-with-search.query';
@@ -24,7 +23,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Throttle } from '@nestjs/throttler';
 
-@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(

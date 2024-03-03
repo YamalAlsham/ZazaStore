@@ -7,6 +7,7 @@ import { getOrderByCondition } from 'src/core/helpers/sort.helper';
 import { LanguageQuery } from 'src/core/query/language.query';
 import { LanguageCodeEnum } from '../language/helper/language-enum';
 import { UpdateStatusDto } from './dto/update-status.dto';
+import { StatusEnum } from './helpers/status-enum';
 
 @Injectable()
 export class OrderService {
@@ -38,7 +39,7 @@ export class OrderService {
   async findAll(query: Pagination, status: string) {
     const [orders, count] = await this.orderRepository.findAndCount({
       where: {
-        status,
+        status: (status ? StatusEnum.ALL : '', status),
       },
       take: query.limit,
       skip: (query.page - 1) * query.limit,
