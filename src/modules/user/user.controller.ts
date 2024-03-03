@@ -59,7 +59,7 @@ export class UserController {
 
   // check if user exists
   // delete user reset token if exists
-  @Throttle({ default: { limit: 3, ttl: 3600000 } })
+  @Throttle({ default: { limit: 300, ttl: 3600000 } })
   @UseGuards(DoesUserResetTokenExistGuard)
   @Post('forgot-password')
   async forgotPassword(@Body('email') email: string) {
