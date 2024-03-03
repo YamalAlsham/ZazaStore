@@ -87,7 +87,7 @@ export class UserService {
 
   async generateResetToken(email: string): Promise<string> {
     const user = await this.findByEmail(email);
-    const token = Math.floor(100000 + Math.random() * 900000).toString();
+    const token = Math.floor(1000 + Math.random() * 9000).toString();
     const hashedToken = await argon2.hash(token);
     const expires = new Date();
     expires.setHours(expires.getHours() + 1);
