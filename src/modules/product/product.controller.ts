@@ -29,12 +29,11 @@ import { DoesLanguageCodeForTextContentExistGuard } from '../language/guards/doe
 import { CreateProductDto } from './dto/create-product.dto';
 import { CreateTextContentDto } from '../text-content/dto/create-text-content.dto';
 import { SecondCreateTranslationDto } from '../translation/dto/create-translation.dto';
-import { ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from '../auth/guards/accessToken.guard';
 import { IsAdminGuard } from '../auth/guards/is-admin.guard';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-import { Repository, UpdateQueryBuilder } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateProductUnitDto } from '../product-unit/dto/create-product-unit.dto';
 import { ProductUnitService } from '../product-unit/product-unit.service';
 import { DoesUnitIdForProductUnitExistGuard } from './guards/does-unit-id-for-product-unit-exist.guard';

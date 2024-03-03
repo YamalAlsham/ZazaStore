@@ -34,12 +34,11 @@ import { IsAdminGuard } from '../auth/guards/is-admin.guard';
 import { DoesCategoryExistGuard } from './guards/does-category-exist.guard';
 import { UpdateTextContentDto } from '../text-content/dto/update-text-content.dto';
 import { UpdateSecondTranslationDtoList } from '../translation/dto/update-translation.dto';
-import { ApiTags } from '@nestjs/swagger';
 import { PaginationWithLanguage } from 'src/core/query/pagination-with-language.query';
 import { Request } from 'express';
 import { UploadService } from '../upload/upload.service';
 import { Throttle } from '@nestjs/throttler';
-@ApiTags('category')
+
 @Controller('category')
 export class CategoryController {
   constructor(
