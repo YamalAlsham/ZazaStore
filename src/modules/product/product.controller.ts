@@ -52,7 +52,6 @@ import { PaginationWithLanguage } from 'src/core/query/pagination-with-language.
 import { UploadService } from '../upload/upload.service';
 import { Throttle } from '@nestjs/throttler';
 
-@ApiTags('product')
 @Controller('product')
 export class ProductController {
   constructor(
