@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
-import express from 'express';
+const express = require('express');
 //import * as csurf from 'csurf';
 
 async function bootstrap() {
