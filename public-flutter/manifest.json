@@ -1,7 +1,7 @@
 {
     "name": "zaza_dashboard",
     "short_name": "zaza_dashboard",
-    "start_url": ".",
+    "start_url": "https://zazastore-production.up.railway.app/",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
