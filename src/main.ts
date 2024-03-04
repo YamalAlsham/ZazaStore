@@ -16,8 +16,13 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  app.useStaticAssets(join(__dirname, '..', 'public-flutter'));
-  app.use('*', express.static(join(__dirname, '..','public-flutter')));
+  // Serve static files using NestJS method
+  app.useStaticAssets(join(__dirname, '..', '..', 'public-flutter'));
+
+  // All routes that don't match static files will serve the Flutter app
+  app.use((req, res, next) => {
+    res.sendFile(join(__dirname, '..','..', 'public-flutter', 'index.html'));
+  });
 
 
   // app.use(csurf());
