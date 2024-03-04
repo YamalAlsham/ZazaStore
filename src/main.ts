@@ -16,8 +16,8 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  app.useStaticAssets(join(__dirname, 'public-flutter'));
-  app.use('*', express.static(join(__dirname, 'public-flutter')));
+  app.useStaticAssets(join(__dirname, '..', 'public-flutter'));
+  app.use('*', express.static(join(__dirname, '..','public-flutter')));
 
 
   // app.use(csurf());
