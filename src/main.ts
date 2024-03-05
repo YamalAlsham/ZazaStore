@@ -17,8 +17,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  // Serve static files using NestJS method
-  app.useStaticAssets(join(__dirname, '..', '..', 'public-flutter'));
+  //app.useStaticAssets(join(__dirname, '..', '..', 'public-flutter'));
 
   // app.use(csurf());
   //  app.useGlobalFilters(new CustomExceptionFilter());

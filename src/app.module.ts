@@ -46,7 +46,7 @@ import { join } from 'path';
       },
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'public-flutter', 'index.html'),
+      rootPath: join(__dirname, '..', '..', 'public-flutter'),
       exclude: ['/api/(.*)'],
     }),
     ThrottlerModule.forRoot([
