@@ -13,21 +13,12 @@ async function bootstrap() {
   const appService = app.get(AppService);
   await appService.seed();
 
+  app.setGlobalPrefix('api');
+
   app.useGlobalPipes(new ValidationPipe());
 
   // Serve static files using NestJS method
   app.useStaticAssets(join(__dirname, '..', '..', 'public-flutter'));
-
-  app.use('dashboard',(req, res, next) => {
-    res.sendFile(join(__dirname, '..', '..', 'public-flutter', 'index.html'));
-  });
-
-  app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
 
   // app.use(csurf());
   //  app.useGlobalFilters(new CustomExceptionFilter());

@@ -28,6 +28,8 @@ import { CategoryType } from './modules/category/entities/category-type.entity';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -42,6 +44,10 @@ import { APP_GUARD } from '@nestjs/core';
           pass: process.env.SENDGRID_API_KEY,
         },
       },
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'public-flutter', 'index.html'),
+      exclude: ['/api/(.*)'],
     }),
     ThrottlerModule.forRoot([
       {
