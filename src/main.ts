@@ -4,7 +4,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
-//import * as csurf from 'csurf';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -19,7 +18,6 @@ async function bootstrap() {
 
   //app.useStaticAssets(join(__dirname, '..', '..', 'public-flutter'));
 
-  // app.use(csurf());
   //  app.useGlobalFilters(new CustomExceptionFilter());
   await app.listen(process.env.PORT || 3333);
 }
