@@ -202,12 +202,17 @@ export class CategoryService {
   findOne(id: number) {
     return this.categoryRepository.findOneBy({ id, isDeleted: false });
   }
-
-  findOneWithTextContentAndTranslations(id: number) {
-    return this.categoryRepository.findOne({
+  async findOneWithTextContentAndTranslations(id: number) {
+    const category = await this.categoryRepository.findOne({
       where: { id, isDeleted: false },
       relations: ['textContent', 'textContent.translations'],
     });
+
+    if (category && category.image) {
+      category.image = process.env.IMAGES_PREFIX_URL + category.image;
+    }
+
+    return category;
   }
 
   async findAllThatAcceptProducts(code: string) {
