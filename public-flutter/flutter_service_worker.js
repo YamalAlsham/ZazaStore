@@ -12,7 +12,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "f61b36609d8ce78eb5a65fa1d4a9ef22
 "assets/assets/Logo_White_512.png": "9979e5024e18a5954902bc1b45c21806",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/fonts/MaterialIcons-Regular.otf": "b2a34a00f3349dacc02f4ff24b518880",
-"assets/NOTICES": "c23bc0366c45dcbf5308ee208d383033",
+"assets/NOTICES": "c0e7b227caf93b96f9314433e5e7d025",
 "assets/packages/awesome_dialog/assets/flare/error.flr": "e3b124665e57682dab45f4ee8a16b3c9",
 "assets/packages/awesome_dialog/assets/flare/info.flr": "bc654ba9a96055d7309f0922746fe7a7",
 "assets/packages/awesome_dialog/assets/flare/info2.flr": "21af33cb65751b76639d98e106835cfb",
@@ -332,9 +332,9 @@ const RESOURCES = {"assets/AssetManifest.bin": "f61b36609d8ce78eb5a65fa1d4a9ef22
 "icons/ms-icon-150x150.png": "8f03b22258d962f1b68cd66424ab0594",
 "icons/ms-icon-310x310.png": "d23f868b58d8a27e4325bac08f8d2dd7",
 "icons/ms-icon-70x70.png": "b721f9737d490f6a9162748995fa72d9",
-"index.html": "666749a00f7ceb11cb7df793a61bb7e2",
-"/": "666749a00f7ceb11cb7df793a61bb7e2",
-"main.dart.js": "41e78bd2111968b28df6cfab2178d2d8",
+"index.html": "8de470246ac1e741f28f4ba3ea9e441b",
+"/": "8de470246ac1e741f28f4ba3ea9e441b",
+"main.dart.js": "e3b38c34a16925ae5577c5d470402b3b",
 "manifest.json": "90c9c197ca10547a6e0b13332d2b7a02",
 "version.json": "334786c1e21c586a55136a52079bbe81"};
 // The application shell files that are downloaded before a service worker can
