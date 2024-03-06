@@ -44,26 +44,45 @@ export class TranslationService {
     id: number,
     updateSecondTranslationDtoList: UpdateSecondTranslationDtoList[],
   ) {
-    const translation = await this.findByTextContentId(id);
+    // Assuming findByTextContentId returns an array of existing translations
+    const existingTranslations = await this.findByTextContentId(id);
 
-    if (translation.length > 0)
-      for (const updateTranslation of updateSecondTranslationDtoList) {
-        const { code, translation: updatedTranslation } = updateTranslation;
+    // Separate existing translations by code for easy lookup
+    const existingTranslationsMap = new Map(
+      existingTranslations.map((t) => [t.code, t]),
+    );
 
-        const existingTranslation = translation.find((t) => t.code === code);
+    const translationsToUpdate = [];
+    const translationsToCreate = [];
+    const updatedTranslations = []; // List to hold updated translations
 
-        if (existingTranslation) {
-          existingTranslation.translation = updatedTranslation;
-        } else {
-          const newTranslation = this.translationRepository.create({
-            code,
-            textContentId: id,
-            translation: updatedTranslation,
-          });
-          translation.push(newTranslation);
-        }
+    for (const updateTranslation of updateSecondTranslationDtoList) {
+      const { code, translation: updatedTranslation } = updateTranslation;
+
+      if (existingTranslationsMap.has(code)) {
+        // Update existing translation
+        const existingTranslation = existingTranslationsMap.get(code);
+        existingTranslation.translation = updatedTranslation;
+        translationsToUpdate.push(existingTranslation);
+        updatedTranslations.push(existingTranslation); // Add to updated translations list
+      } else {
+        // Create new translation
+        const newTranslation = this.translationRepository.create({
+          code,
+          textContentId: id,
+          translation: updatedTranslation,
+        });
+        translationsToCreate.push(newTranslation);
+        updatedTranslations.push(newTranslation); // Add to updated translations list
       }
+    }
 
-    return this.translationRepository.save(translation);
+    // Save updated translations
+    await this.translationRepository.save(translationsToUpdate);
+
+    // Save new translations
+    await this.translationRepository.save(translationsToCreate);
+
+    return updatedTranslations; // Return the list of updated translations
   }
 }

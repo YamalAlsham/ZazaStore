@@ -120,6 +120,7 @@ export class CategoryController {
       +textContentId,
       updateTextContentDto,
     );
+
     const updatedTranslation = await this.translationService.update(
       textContentId,
       updateSecondTranslationDtoList,
