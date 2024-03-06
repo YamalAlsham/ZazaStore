@@ -50,7 +50,7 @@ import { TaxIdDto } from './dto/taxId-dto';
 import { ProductUnitIds } from './dto/product-unit-ids.dto';
 import { PaginationWithLanguage } from 'src/core/query/pagination-with-language.query';
 import { UploadService } from '../upload/upload.service';
-import { Throttle } from '@nestjs/throttler';
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
 
 @Controller('product')
 export class ProductController {
@@ -110,6 +110,7 @@ export class ProductController {
   }
 
   @UseGuards(AccessTokenGuard)
+  @SkipThrottle()
   @Get()
   findAll(@Query() query: QueryFilter, @Req() req: Request) {
     return this.productService.findAll(query, req);
