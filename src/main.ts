@@ -3,14 +3,14 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import helmet from 'helmet';
+// import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true,
   });
 
-  app.use(helmet());
+  // app.use(helmet());
 
   const appService = app.get(AppService);
   await appService.seed();
