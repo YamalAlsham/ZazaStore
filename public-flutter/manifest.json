@@ -1,11 +1,11 @@
 {
-    "name": "zaza_dashboard",
-    "short_name": "zaza_dashboard",
+    "name": "Zaza Store",
+    "short_name": "Zaza Store",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Zaza Store Dashboard",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
