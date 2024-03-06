@@ -25,26 +25,20 @@ export class UserService {
     if (!query.search) query.search = '';
 
     const qb = this.userRepository.createQueryBuilder('user');
-    qb.where('user.userName LIKE :search', { search: `%${query.search}%` })
-      .orWhere('user.name LIKE :search', { search: `%${query.search}%` })
-      .andWhere((qb) => {
-        const subQuery = qb
-          .subQuery()
-          .select('user.userName')
-          .from(User, 'user')
-          .where('user.userName != :username', { username: 'admin' })
-          .getQuery();
-        return 'user.userName IN ' + subQuery;
-      })
+    qb.where('user.userName LIKE :search OR user.name LIKE :search', {
+      search: `%${query.search}%`,
+    })
       .orderBy(getOrderUserByCondition(query.sort))
       .skip((query.page - 1) * query.limit)
       .take(query.limit);
 
     const [users, count] = await qb.getManyAndCount();
 
+    const filteredUsers = users.filter((user) => user.userName !== 'admin');
+
     return {
-      count,
-      users,
+      count: count - (users.length - filteredUsers.length),
+      users: filteredUsers,
     };
   }
 
