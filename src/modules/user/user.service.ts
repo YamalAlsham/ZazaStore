@@ -25,7 +25,8 @@ export class UserService {
     if (!query.search) query.search = '';
 
     const qb = this.userRepository.createQueryBuilder('user');
-    qb.where('user.userName LIKE :search', { search: `%${query.search}%` })
+    qb.where('user.userName LIKE :search', { search: `%${query.search}%` });
+    qb.orWhere('user.name LIKE :search', { search: `%${query.search}%` })
       .andWhere('user.userName != :username', { username: 'admin' })
       .orderBy(getOrderUserByCondition(query.sort))
       .skip((query.page - 1) * query.limit)
