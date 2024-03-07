@@ -219,6 +219,7 @@ export class CategoryService {
     const categories = await this.categoryRepository.find({
       where: {
         typeName: In([CategoryTypeEnum.UNKNOWN, CategoryTypeEnum.LEAF]),
+        isDeleted: false,
       },
       relations: ['textContent', 'textContent.translations'],
     });
