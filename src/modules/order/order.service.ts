@@ -37,10 +37,13 @@ export class OrderService {
   }
 
   async findAll(query: Pagination, status: string) {
+    let whereClause = {};
+    if (status !== StatusEnum.ALL) {
+      whereClause = { status };
+    }
+
     const [orders, count] = await this.orderRepository.findAndCount({
-      where: {
-        status: (status ? StatusEnum.ALL : '', status),
-      },
+      where: whereClause,
       take: query.limit,
       skip: (query.page - 1) * query.limit,
       relations: {
@@ -48,6 +51,7 @@ export class OrderService {
       },
       order: getOrderByCondition(query.sort),
     });
+
     return {
       count,
       orders,
@@ -55,8 +59,13 @@ export class OrderService {
   }
 
   async findAllByUserId(userId: number, query: Pagination, status: string) {
+    let whereClause = { userId };
+    if (status !== StatusEnum.ALL) {
+      whereClause['status'] = status;
+    }
+
     const [orders, count] = await this.orderRepository.findAndCount({
-      where: { userId, status },
+      where: whereClause,
       take: query.limit,
       skip: (query.page - 1) * query.limit,
       relations: {
@@ -64,6 +73,7 @@ export class OrderService {
       },
       order: getOrderByCondition(query.sort),
     });
+
     return {
       count,
       orders,
