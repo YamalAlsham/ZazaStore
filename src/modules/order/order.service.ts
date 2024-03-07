@@ -125,60 +125,49 @@ export class OrderService {
 
   private addGermanTextContent(qb: any, code: LanguageCodeEnum) {
     return qb
-      .leftJoin(
+      .leftJoinAndSelect(
         'productUnit.textContent',
         'productUnitTextContent',
         'productUnitTextContent.code = :code',
         { code },
       )
-      .addSelect('productUnitTextContent.originalText')
-      .leftJoin(
+      .leftJoinAndSelect(
         'product.textContent',
         'productTextContent',
         'productTextContent.code = :code',
         { code },
       )
-      .addSelect('productTextContent.originalText')
-      .leftJoin(
+      .leftJoinAndSelect(
         'unit.textContent',
         'unitTextContent',
         'unitTextContent.code = :code',
         { code },
-      )
-      .addSelect('unitTextContent.originalText');
+      );
   }
 
   private addOtherTextContent(qb: any, code: string) {
     return qb
-      .leftJoin('productUnit.textContent', 'productUnitTextContent')
-      .leftJoin(
+      .leftJoinAndSelect('productUnit.textContent', 'productUnitTextContent')
+      .leftJoinAndSelect(
         'productUnitTextContent.translations',
         'productUnitTranslation',
         'productUnitTranslation.code = :code',
         { code },
       )
-      .addSelect('productUnitTextContent.originalText')
-      .addSelect('productUnitTranslation.translation')
-
-      .leftJoin('product.textContent', 'productTextContent')
-      .leftJoin(
+      .leftJoinAndSelect('product.textContent', 'productTextContent')
+      .leftJoinAndSelect(
         'productTextContent.translations',
         'productTranslation',
         'productTranslation.code = :code',
         { code },
       )
-      .addSelect('productTextContent.originalText')
-      .addSelect('productTranslation.translation')
-
-      .leftJoin('unit.textContent', 'productTextContent')
-      .leftJoin(
-        'unit.translations',
+      .leftJoinAndSelect('unit.textContent', 'unitTextContent')
+      .leftJoinAndSelect(
+        'unitTextContent.translations',
         'unitTranslation',
         'unitTranslation.code = :code',
         { code },
-      )
-      .addSelect('unitTextContent.originalText')
-      .addSelect('unitTranslation.translation');
+      );
   }
 
   private formatResponse(result: any, code: string) {
