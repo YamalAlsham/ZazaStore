@@ -24,12 +24,18 @@ export class OrderService {
   }
 
   async findMyOrders(userId: number, query: Pagination, status: string) {
+    let whereClause = { userId };
+    if (status !== StatusEnum.ALL) {
+      whereClause['status'] = status;
+    }
+
     const [orders, count] = await this.orderRepository.findAndCount({
-      where: { userId, status },
+      where: whereClause,
       take: query.limit,
       skip: (query.page - 1) * query.limit,
       order: getOrderByCondition(query.sort),
     });
+
     return {
       count,
       orders,
