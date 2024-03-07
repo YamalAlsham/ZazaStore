@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Unit } from './entities/unit.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { TextContent } from '../text-content/entities/text-content.entity';
 import { ProductUnitService } from '../product-unit/product-unit.service';
 import { ProductUnit } from '../product-unit/entities/product-unit.entity';
+import { Product } from '../product/entities/product.entity';
 
 @Injectable()
 export class UnitService {
@@ -13,6 +14,8 @@ export class UnitService {
     private readonly productUnitService: ProductUnitService,
     @InjectRepository(ProductUnit)
     private readonly productUnitRepository: Repository<ProductUnit>,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
   ) {}
   async create(textContent: TextContent) {
     const unit = this.unitRepository.create({
@@ -83,13 +86,35 @@ export class UnitService {
   async remove(id: number) {
     const unit = await this.findOne(id);
     unit.isDeleted = true;
-    const productUnits = await this.productUnitService.findByUnitId(id);
 
-    productUnits.forEach((productUnit) => {
+    const productUnitsWithProductIds =
+      await this.productUnitService.findByUnitId(id);
+
+    productUnitsWithProductIds.forEach((productUnit) => {
       productUnit.isDeleted = 1;
     });
 
-    await this.productUnitRepository.save(productUnits);
+    await this.productUnitRepository.save(productUnitsWithProductIds);
+
+    const productIds = productUnitsWithProductIds.map(
+      (productUnit) => productUnit.productId,
+    );
+
+    const othersProductUnits = await this.productUnitService.findByProductIds(
+      productIds,
+    );
+
+    const productIdsShouldBeDeleted = productIds.filter(
+      (id) => !othersProductUnits.includes(id),
+    );
+
+    const ProductsShouldBeDeleted = await this.productRepository.find({
+      where: { id: In(productIdsShouldBeDeleted) },
+    });
+
+    ProductsShouldBeDeleted.map((product) => (product.isDeleted = 1));
+
+    await this.productRepository.save(ProductsShouldBeDeleted);
 
     return this.unitRepository.save(unit);
   }

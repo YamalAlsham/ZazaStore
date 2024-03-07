@@ -3,7 +3,7 @@ import { CreateProductUnitDto } from './dto/create-product-unit.dto';
 import { UpdateProductUnitDto } from './dto/update-product-unit.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductUnit } from './entities/product-unit.entity';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { TranslationService } from '../translation/translation.service';
 import { TextContentService } from '../text-content/text-content.service';
 
@@ -55,7 +55,10 @@ export class ProductUnitService {
   }
 
   findByUnitId(unitId: number) {
-    return this.productUnitRepository.findBy({ unitId, isDeleted: 0 });
+    return this.productUnitRepository.find({
+      where: { unitId, isDeleted: 0 },
+      select: { id: true, isDeleted: true, productId: true },
+    });
   }
 
   async update(
@@ -91,5 +94,15 @@ export class ProductUnitService {
       .leftJoinAndSelect('productUnit.unit', 'unit', 'unit.isDeleted = 0')
       .leftJoinAndSelect('unit.textContent', 'unitTextContent')
       .getMany();
+  }
+
+  async findByProductIds(productIds: number[]) {
+    const productUnits = await this.productUnitRepository.find({
+      where: { isDeleted: 0, productId: In(productIds) },
+      select: ['productId'],
+    });
+    const productIdsResult = productUnits.map((unit) => unit.productId);
+
+    return productIdsResult;
   }
 }
