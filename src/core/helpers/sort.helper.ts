@@ -12,9 +12,9 @@ export function getOrderByCondition(sort: string): OrderByCondition {
 export function getOrderProductByCondition(sort: string): OrderByCondition {
   switch (sort) {
     case 'newest':
-      return { 'product.createdAt': 'DESC' };
+      return { 'product.id': 'DESC' };
     case 'oldest':
-      return { 'product.createdAt': 'ASC' };
+      return { 'product.id': 'ASC' };
     default:
       return {};
   }
