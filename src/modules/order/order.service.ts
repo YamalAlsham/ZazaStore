@@ -107,6 +107,7 @@ export class OrderService {
         'productOrders.id',
         'productOrders.amount',
         'productOrders.totalPrice',
+        'productOrders.totalPriceAfterTax',
         'productUnit.id',
         'product.id',
         'product.image',
@@ -221,6 +222,7 @@ export class OrderService {
             id: productOrder.id,
             amount: productOrder.amount,
             totalPrice: productOrder.totalPrice,
+            totalPriceAfterTax: productOrder.totalPriceAfterTax,
           },
         });
         return groups;
@@ -239,6 +241,7 @@ export class OrderService {
       createdAt: result.createdAt,
       status: result.status,
       totalPrice: result.totalPrice,
+      totalPriceAfterTax: result.totalPriceAfterTax,
       products,
     };
   }

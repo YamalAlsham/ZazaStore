@@ -62,6 +62,7 @@ export class OrderController {
         .leftJoinAndSelect('po.productUnit', 'pu')
         .leftJoinAndSelect('pu.product', 'p')
         .leftJoinAndSelect('p.discounts', 'd')
+        .leftJoinAndSelect('p.tax', 't')
         .leftJoinAndSelect('p.discountSpecificUsers', 'dsu')
         .where('po.id = :id', { id: productOrder.id })
         .addSelect(
@@ -79,24 +80,35 @@ export class OrderController {
       `,
           'discountedPrice',
         )
+        .addSelect('t.percent', 'taxPercent')
         .getRawOne();
 
       const calcTotalDiscountedPrice = await totalDiscountedPriceQuery;
       const discountedPrice = calcTotalDiscountedPrice.discountedPrice;
+      const taxPercent = calcTotalDiscountedPrice.taxPercent;
 
       productOrder.totalPrice = discountedPrice;
-      await this.productOrderRepository.save(productOrder);
+      const priceAfterTax = discountedPrice * (1 + taxPercent / 100);
+      productOrder.totalPriceAfterTax = priceAfterTax;
 
-      return discountedPrice;
+      await this.productOrderRepository.save(productOrder);
+      return { discountedPrice, priceAfterTax };
     });
 
     const discountedPrices = await Promise.all(totalPricePromises);
+
+    // Calculate order total price and total price after tax
     const orderTotalPrice = discountedPrices.reduce(
-      (total, price) => total + price,
+      (total, { discountedPrice }) => total + discountedPrice,
+      0,
+    );
+    const orderTotalPriceAfterTax = discountedPrices.reduce(
+      (total, { priceAfterTax }) => total + priceAfterTax,
       0,
     );
 
     order.totalPrice = orderTotalPrice;
+    order.totalPriceAfterTax = orderTotalPriceAfterTax;
     await this.orderRepository.save(order);
 
     return order;
