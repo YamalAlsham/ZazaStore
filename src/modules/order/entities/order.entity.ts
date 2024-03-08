@@ -31,6 +31,9 @@ export class Order {
   @Column()
   totalPrice: number;
 
+  @Column()
+  totalPriceAfterTax: number;
+
   @ManyToOne(() => User, (user) => user.orders, {
     onDelete: 'CASCADE',
   })

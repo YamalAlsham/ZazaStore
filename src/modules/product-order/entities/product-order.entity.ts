@@ -18,6 +18,9 @@ export class ProductOrder {
   @Column()
   totalPrice: number;
 
+  @Column()
+  totalPriceAfterTax: number;
+
   @ManyToOne(() => ProductUnit, (ProductUnit) => ProductUnit.productOrders)
   productUnit: ProductUnit;
 
