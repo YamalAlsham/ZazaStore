@@ -97,7 +97,6 @@ export class OrderController {
 
     const discountedPrices = await Promise.all(totalPricePromises);
 
-    // Calculate order total price and total price after tax
     const orderTotalPrice = discountedPrices.reduce(
       (total, { discountedPrice }) => total + discountedPrice,
       0,

@@ -94,9 +94,12 @@ export class DiscountSpecificUserService {
 
     discountSpecificUser.map(
       (discountSpecificUser) =>
-        (discountSpecificUser['product']['image'] =
-          process.env.IMAGES_PREFIX_URL +
-          discountSpecificUser['product']['image']),
+        (discountSpecificUser['product']['image'] = discountSpecificUser[
+          'product'
+        ]['image']
+          ? process.env.IMAGES_PREFIX_URL +
+            discountSpecificUser['product']['image']
+          : null),
     );
 
     return { count, discountSpecificUser };
