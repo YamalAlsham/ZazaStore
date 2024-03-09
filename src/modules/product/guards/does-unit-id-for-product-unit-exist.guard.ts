@@ -19,19 +19,15 @@ export class DoesUnitIdForProductUnitExistGuard implements CanActivate {
     const request = ctx.getRequest();
 
     let units = request.body.productUnit;
-
-    const id = [];
     for (const unit of units) {
-      id.push(unit.unitId);
+      if (
+        !(await this.unitRepository.findOneBy({
+          id: unit.unitId,
+          isDeleted: false,
+        }))
+      )
+        throw new BadRequestException('Unit does not exist');
     }
-    const idCount = await this.unitRepository.count({
-      where: {
-        id: In(id),
-        isDeleted: false,
-      },
-    });
-    if (idCount != id.length)
-      throw new BadRequestException('Unit does not exist');
 
     return true;
   }

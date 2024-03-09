@@ -31,7 +31,7 @@ export class Order {
   @Column()
   totalPrice: number;
 
-  @Column()
+  @Column({ default: 0 })
   totalPriceAfterTax: number;
 
   @ManyToOne(() => User, (user) => user.orders, {

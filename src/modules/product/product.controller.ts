@@ -51,6 +51,7 @@ import { ProductUnitIds } from './dto/product-unit-ids.dto';
 import { PaginationWithLanguage } from 'src/core/query/pagination-with-language.query';
 import { UploadService } from '../upload/upload.service';
 import { SkipThrottle, Throttle } from '@nestjs/throttler';
+import { getUserId } from '../user/helper/get-user-id.helper';
 
 @Controller('product')
 export class ProductController {
