@@ -101,6 +101,7 @@ export class OrderService {
       .leftJoin('order.productOrders', 'productOrders')
       .leftJoin('productOrders.productUnit', 'productUnit')
       .leftJoin('productUnit.product', 'product')
+      .leftJoin('product.tax', 'tax')
       .leftJoin('productUnit.unit', 'unit')
       .select([
         'order',
@@ -113,6 +114,7 @@ export class OrderService {
         'product.image',
         'product.barCode',
         'unit.id',
+        'tax.percent'
       ]);
 
     if (code == LanguageCodeEnum.DE) {
@@ -182,6 +184,7 @@ export class OrderService {
               id: productOrder.productUnit.product.id,
               image: productOrder.productUnit.product.image,
               barCode: productOrder.productUnit.product.barCode,
+              tax: productOrder.productUnit.product.tax.percent,
               translatedProduct:
                 code == LanguageCodeEnum.DE
                   ? productOrder.productUnit.product.textContent.originalText
