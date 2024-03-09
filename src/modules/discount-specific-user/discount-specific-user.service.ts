@@ -91,8 +91,13 @@ export class DiscountSpecificUserService {
         ])
         .andWhere('product.isDeleted = 0')
         .getManyAndCount();
-    discountSpecificUser['product']['image'] =
-      process.env.IMAGES_PREFIX_URL + discountSpecificUser['product']['image'];
+
+    discountSpecificUser.map(
+      (discountSpecificUser) =>
+        (discountSpecificUser['product']['image'] =
+          process.env.IMAGES_PREFIX_URL +
+          discountSpecificUser['product']['image']),
+    );
 
     return { count, discountSpecificUser };
   }
