@@ -167,13 +167,24 @@ export class ProductService {
 
         let discountPercent: number = 0;
         let discountId: any = null;
+        let type: string | null = null;
 
-        if (discount) {
-          discountPercent = discount.percent;
-          discountId = discount.id;
-        } else if (discountSpecificUsers) {
-          discountPercent = discountSpecificUsers.percent;
-          discountId = discountSpecificUsers.id;
+        if (product.discounts && product.discounts.length > 0) {
+          discountPercent = product.discounts[0].percent;
+          discountId = product.discounts[0].id;
+          type = 'normalDiscount';
+        } else if (
+          product.discountSpecificUsers &&
+          product.discountSpecificUsers.length > 0
+        ) {
+          const userSpecificDiscount = product.discountSpecificUsers.find(
+            (dsu) => dsu.userId === userId,
+          );
+          if (userSpecificDiscount) {
+            discountPercent = userSpecificDiscount.percent;
+            discountId = userSpecificDiscount.id;
+            type = 'discountSpecificUsers';
+          }
         }
 
         return {
@@ -186,7 +197,7 @@ export class ProductService {
           isFavorite: favoriteProduct ? true : false,
           discount: discountPercent,
           discountId: discountId,
-          type: discount ? 'normalDiscount' : 'discountSpecificUsers',
+          type: type, // This will be 'normalDiscount', 'discountSpecificUsers', or null
           translatedText: translatedText || product.textContent.originalText,
           translatedProductUnits,
         };
