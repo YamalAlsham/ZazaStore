@@ -114,7 +114,7 @@ export class OrderService {
         'product.image',
         'product.barCode',
         'unit.id',
-        'tax.percent'
+        'tax.percent',
       ]);
 
     if (code == LanguageCodeEnum.DE) {
@@ -182,7 +182,10 @@ export class OrderService {
           groups[key] = {
             product: {
               id: productOrder.productUnit.product.id,
-              image: productOrder.productUnit.product.image,
+              image: productOrder.productUnit.product.image
+                ? process.env.IMAGES_PREFIX_URL +
+                  productOrder.productUnit.product.image
+                : null,
               barCode: productOrder.productUnit.product.barCode,
               tax: productOrder.productUnit.product.tax.percent,
               translatedProduct:
