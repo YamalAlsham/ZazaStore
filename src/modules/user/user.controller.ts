@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Query,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -22,6 +23,7 @@ import { UserResetPassword } from './entities/user-reset-password.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SkipThrottle, Throttle } from '@nestjs/throttler';
+import { getUserId } from './helper/get-user-id.helper';
 
 @Controller('user')
 export class UserController {
@@ -53,6 +55,13 @@ export class UserController {
   @UseGuards(AccessTokenGuard, IsAdminGuard, UserNotFoundGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
+    return this.userService.remove(+id);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Delete()
+  removeMyAccount(@Req() req) {
+    const id = getUserId(req);
     return this.userService.remove(+id);
   }
 
