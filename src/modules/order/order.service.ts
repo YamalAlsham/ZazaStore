@@ -187,7 +187,9 @@ export class OrderService {
                   productOrder.productUnit.product.image
                 : null,
               barCode: productOrder.productUnit.product.barCode,
-              tax: productOrder.productUnit.product.tax.percent,
+              tax: productOrder.productUnit.product.tax
+                ? productOrder.productUnit.product.tax.percent
+                : null,
               translatedProduct:
                 code == LanguageCodeEnum.DE
                   ? productOrder.productUnit.product.textContent.originalText
