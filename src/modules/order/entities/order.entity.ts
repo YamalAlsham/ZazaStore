@@ -28,10 +28,10 @@ export class Order {
   @Column({ type: 'enum', enum: StatusEnum, default: StatusEnum.PENDING })
   status: string;
 
-  @Column({ default: 0 })
+  @Column('double', { default: 0 })
   totalPrice: number;
 
-  @Column({ default: 0 })
+  @Column('double', { default: 0 })
   totalPriceAfterTax: number;
 
   @ManyToOne(() => User, (user) => user.orders, {

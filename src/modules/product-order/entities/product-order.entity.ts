@@ -15,10 +15,10 @@ export class ProductOrder {
   @Column()
   amount: number;
 
-  @Column({ default: 0 })
+  @Column('double', { default: 0 })
   totalPrice: number;
 
-  @Column({ default: 0 })
+  @Column('double', { default: 0 })
   totalPriceAfterTax: number;
 
   @ManyToOne(() => ProductUnit, (ProductUnit) => ProductUnit.productOrders)
